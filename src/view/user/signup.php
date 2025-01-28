@@ -12,7 +12,7 @@
     <main>
         <div class="container">
             <h2>회원가입 페이지</h2>
-            <form>
+            <form action="" method="post">
             <div>
                 <label for="loginId">회원아이디:</label>
                 <input type="text" id="loginId" name="loginId" required>
