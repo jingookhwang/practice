@@ -1,3 +1,20 @@
+<?php 
+    $connection = mysqli_connect('127.0.0.1', 'sbs', 'sbs1234', 'myproject') or die("데이터 베이스 실패".mysqli_connect_error());
+
+    $sqlQuery = "select id, 
+                        regDate, 
+                        updateDate, 
+                        title, 
+                        body  
+                  from  article 
+                 order  by id desc";   
+
+    $result = mysqli_query($connection,$sqlQuery) or die("데이터 연결 실패".mysqli_error($connection));   
+
+     
+
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,7 +27,6 @@
 
 <body>
 <?php include '../../../public/header&footer/header.php'; ?>
-
     <main>
     <div style="font-size: 50px; text-align: center; margin-bottom: 20px;"><a href="..\..\..\index.php">홈으로</a></div>
         <div class="container">
@@ -21,30 +37,28 @@
             <thead>
                 <tr class="table-header">
                     <th>게시물 제목</th>
-                    <th>작성자</th>
+                    <th>작성제목</th>
+                    <th>작성내용</th>
                     <th>작성일</th>
-                    <th>조회수</th>
                 </tr>
             </thead>
             <tbody>
+                <?php if(mysqli_num_rows($result) > 0){
+                    while($row = mysqli_fetch_assoc($result)){ 
+                ?>
                 <tr class="table-row">
-                    <td><a href="#" class="post-link">게시물 1</a></td>
-                    <td>작성자 1</td>
-                    <td>2023-10-01</td>
-                    <td>100</td>
+                    <td><a href="#" class="post-link"><?php echo $row['id']; ?></a></td>
+                    <td><?php echo $row['title']; ?></td>
+                    <td><?php echo $row['body']; ?></td>
+                    <td><?php echo $row['updateDate']; ?></td>
                 </tr>
-                <tr class="table-row">
-                    <td><a href="#" class="post-link">게시물 2</a></td>
-                    <td>작성자 2</td>
-                    <td>2023-10-02</td>
-                    <td>150</td>
-                </tr>
-                <tr class="table-row">
-                    <td><a href="#" class="post-link">게시물 3</a></td>
-                    <td>작성자 3</td>
-                    <td>2023-10-03</td>
-                    <td>200</td>
-                </tr>
+                <?php }
+                }else{
+                    echo "데이터가 없습니다".mysqli_close($connection);
+                }?>
+                
+
+
             </tbody>
         </table>
         </div>
