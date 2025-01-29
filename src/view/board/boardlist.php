@@ -31,7 +31,6 @@
      */
     $statement = mysqli_prepare($connection,$sqlQuery); //쿼리 준비 단계 //true // false 반환
     mysqli_stmt_execute($statement);//쿼리 예문 실행 int 값으로 반환
-    
     $result = mysqli_stmt_get_result($statement);
     if ($result === false) {
         die("데이터 연결 실패".mysqli_error($connection));
@@ -73,12 +72,11 @@
                         if(mysqli_num_rows($result) === 0){
                             die("연결될 로우 없음".mysqli_close($connection));
                         }else{
-                            var_dump(mysqli_fetch_assoc($result)) ;
                             while($row = mysqli_fetch_assoc($result)){ ?>
                             <tr class="table-row">
-                                <td><a href="#" class="post-link"><?php echo htmlspecialchars($row['id']); ?></a></td>
+                                <td><?php echo htmlspecialchars($row['id']); ?></td>
                                 <td><?php echo htmlspecialchars($row['title']); ?></td>
-                                <td><?php echo htmlspecialchars($row['body']); ?></td>
+                                <td><a href="detail.php?bno=<?php echo htmlspecialchars($row['id']) ?>" class="post-link"><?php echo htmlspecialchars($row['body']); ?></a></td>
                                 <td><?php echo htmlspecialchars($row['updateDate']); ?></td>
                             </tr>
                         <?php

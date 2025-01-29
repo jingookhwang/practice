@@ -66,14 +66,16 @@
                         echo "<script>alert('게시물이 없습니다.');</script>";
                     }else{
                         $row = mysqli_fetch_assoc($result); ?>
-                    
+                
+                <label for="postTitle">게시물 번호:<?php echo htmlspecialchars($row['id'])?></label>
+
                 <label for="postTitle">게시물 제목:</label>
-                <input type="text" id="postTitle" name="postTitle" placeholder="게시물 제목을 입력하세요" required>
+                <input type="text" id="postTitle" name="postTitle" value="<?php echo htmlspecialchars($row['title']) ?>">
 
                 <label for="postContent">내용:</label>
-                <textarea id="postContent" name="postContent" placeholder="게시물 내용을 입력하세요" required rows="10"></textarea>
+                <textarea id="postContent" name="postContent"><?php echo htmlspecialchars($row['body']) ?></textarea>
             <?php } ?>
-                <button type="submit">작성완료</button>
+                <button type="submit">변경하기</button>
                 <button type="button" onclick="location.href='../../../index.php'">취소</button>
             </form>
         </div>
