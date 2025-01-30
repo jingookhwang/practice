@@ -5,18 +5,7 @@
         exit;
     }
 
-    $id = intval($_GET['bno']);
-    $connection = mysqli_connect("127.0.0.1","sbs","sbs1234","myproject");//연결
-    $sqlQuery = "SELECT * FROM article WHERE ID = ?";
-    $stmt = mysqli_prepare($connection,$sqlQuery); //쿼리 준비
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    mysqli_stmt_execute($stmt);//쿼리 실행
-
-    $result = mysqli_stmt_get_result($stmt);
-    if(!$result){
-        exit;
-        mysqli_close($connection);
-    }    
+        
 
     /*
     $dbHost = '127.0.0.1';//에러가 안뜸
