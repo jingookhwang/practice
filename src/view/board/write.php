@@ -43,7 +43,7 @@
     
 
 ?>
-<?php include '../../../public/header&footer/header.php'; ?>
+<?php include $_SERVER["DOCUMENT_ROOT"].'\public\header&footer\header.php'; ?>
 
     <main>
     <div style="font-size: 50px; text-align: center; margin-bottom: 20px;"><a href="..\..\..\index.php">홈으로</a></div>
@@ -68,4 +68,4 @@
         </div>
     </main>
 
-<?php include '../../../public/header&footer/footer.php'; ?>
+<?php include $_SERVER["DOCUMENT_ROOT"].'\public\header&footer\footer.php'; ?>
