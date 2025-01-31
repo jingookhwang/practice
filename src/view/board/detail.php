@@ -1,35 +1,12 @@
 <?php
-    
+    require_once $_SERVER["DOCUMENT_ROOT"]."/src/app.php";
+    require_once $_SERVER["DOCUMENT_ROOT"]."/src/util.php";
 
     if(isset($_GET['bno']) === false){
         exit;
     }
-
-        
-
-    /*
-    $dbHost = '127.0.0.1';//에러가 안뜸
-    $dbName = 'myproject';
-    $dbUser = 'sbs';
-    $dbPass = 'sbs1234';
-
-    try{
-        $connection = new PDO("mysql:host=$dbHost;dbname=$dbName;charset=utf8",$dbUser,$dbPass);
-        $connection ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sqlQuery = "update article 
-                        set title      = ?,
-                            body       = ?,
-                            updateDate = now()
-                     where id=?";
-        $stms->bindValue(1,title);
-        $stms->bindValue(2,body);
-
-
-    }catch(PDOException $e){
-        echo $e->getMessage();
-    }
-        update 게시물 준비중 pdo 세팅
-    */
+    $id = $_GET['bno'];
+    $sqlQuery = "select * from article where id=?";
     
 
 ?>

@@ -6,11 +6,9 @@ $sqlQuery = "select id,
                     title, 
                     body  
               from  article 
-             order  by id desc";   
+             order  by id desc";
 
-$param = DB__getRow($sqlQuery);
-// print_r($param->fetchAll(PDO::FETCH_ASSOC));
-
+$param = BOARD_RESTfull_API("GET",$sqlQuery,null);
 ?>
 
 <?php include $_SERVER['DOCUMENT_ROOT'].'/public/header&footer/header.php'; ?>
@@ -30,12 +28,10 @@ $param = DB__getRow($sqlQuery);
             </thead>
             <tbody>
                 <?php
-                        if($param->rowCount() === 0){
+                        if(count($param) === 0){
                             die("연결될 로우 없음");
                         }else{
-                            $rows = $param->fetchAll(PDO::FETCH_ASSOC);
-
-                            foreach($rows as $row){ ?>
+                            foreach($param as $row){ ?>
 
                                 <tr class="table-row">
                                     <td><?php echo htmlspecialchars($row['id']); ?></td>
