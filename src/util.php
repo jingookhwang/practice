@@ -42,7 +42,14 @@
                                     return $stms->fetchAll(\PDO::FETCH_ASSOC);
                                 }
                     case 'POST'   :
-                    case 'PUT'    :
+                    case 'FETCH'  :
+                                if(!empty($param)){
+                                    $stms = $this->connection->prepare($sqlQuery);
+                                    foreach($param as $key => $value){
+                                        $stms->bindValue(":" . $key, $value);
+                                    }
+                                    $stms->execute();
+                                }
                     case 'DELETE' :  
                     default       :
                                   return null;       
@@ -53,6 +60,22 @@
                 echo "util class = ". $e->getMessage();
             }
             
+        }
+
+        public function getSqlQuery(String $selectName){
+            $sqlFile = $_SERVER['DOCUMENT_ROOT']."/db.sql";
+            $content = file_get_contents($sqlFile);
+            if (preg_match("/-- @name: {$selectName}\s*?\n(.*?)(?=-- @name:|\s*--|$)/s", $content, $matches)) {
+                /**
+                 * print_r($matches) ; 결과값 :
+                 * $matches[0] -> -- @name: board.detail SELECT id, regDate, updateDate, title, body FROM article WHERE id = :id;
+                 * $matches[1] -> SELECT id, regDate, updateDate, title, body FROM article WHERE id = :id;
+                 */
+                $query = trim($matches[1]); //변수로 담지 않으면, 겹쳐서 나옴. 왜그런지 모르겠음.
+                return $query;
+            }
+            
+            throw new \Exception("SQL 쿼리를 찾을 수 없습니다: {$selectName}");
         }
     }
 

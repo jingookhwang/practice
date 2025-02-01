@@ -6,14 +6,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/src/util.php';
 use app\util\DB;
 
 $DB = new DB();
-$sqlQuery = "select id, 
-                    regDate, 
-                    updateDate, 
-                    title, 
-                    body  
-              from  article 
-             order  by id desc";
 try{
+    echo $_ENV['DB_BOARD_LIST'];
+    $sqlQuery = $DB->getSqlQuery($_ENV['DB_BOARD_LIST']);
     $boardlist= $DB->handleRequest("GET",$sqlQuery);
 }catch(\PDOException $e){
     echo "boardlist 데이터 조회 실패=".$e->getMessage();
