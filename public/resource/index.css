@@ -47,12 +47,6 @@ label {
     margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-
-
-button:hover {
+.deatil_submit_button .detail_cancel_button button:hover{
     background-color: #007BFF;
 }
-

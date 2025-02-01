@@ -1,9 +1,7 @@
 <?php
     declare(strict_types=1);
-    namespace util;
+    namespace app\util;
     use app\Application;
-    use PDO;
-    require_once $_SERVER['DOCUMENT_ROOT']."/src/app.php"; 
     
     /**
      * app.php use PDO , use PDOexecption 을 사용하고있어서. 
@@ -31,9 +29,18 @@
             try{
                 switch($method){
                     case "GET"    :
-                                  $stms = $this->connection->prepare($sqlQuery);//준비
-                                  $stms->execute();//실행
-                                  return $stms->fetchAll(PDO::FETCH_ASSOC);
+                                if(empty($param)){
+                                    $stms = $this->connection->prepare($sqlQuery);//준비
+                                    $stms->execute();//실행 .param 넣는다
+                                    return $stms->fetchAll(\PDO::FETCH_ASSOC);
+                                }else{
+                                    $stms = $this->connection->prepare($sqlQuery);
+                                    foreach ($param as $key => $value) { // foreach 루프 사용, key-value 쌍으로 처리
+                                        $stms->bindParam(":" . $key, $value); // 이름 기반 바인딩: ":파라미터_이름", 값
+                                    }
+                                    $stms->execute();
+                                    return $stms->fetchAll(\PDO::FETCH_ASSOC);
+                                }
                     case 'POST'   :
                     case 'PUT'    :
                     case 'DELETE' :  

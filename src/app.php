@@ -28,17 +28,18 @@
 
         public function initializeDatabase():void{
             try{    
-                //PDO(connection , user , password)
-                $this->connection=new PDO(
-                    sprintf(
-                        'mysql:host=%s;dbname=%s;charset=utf8'
-                        ,$_ENV['DB_HOST']
-                        ,$_ENV['DB_NAME']
-                    ),$_ENV['DB_USER']
-                    , $_ENV['DB_PASS']
+                $dbSetting =sprintf(
+                    'mysql:host=%s;dbname=%s;charset=utf8'
+                    ,$_ENV['DB_HOST']
+                    ,$_ENV['DB_NAME']
                 );
 
-                $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                $this->connection = new PDO(
+                    $dbSetting  , $_ENV['DB_USER'] , $_ENV['DB_PASS']
+                );
+
+                $this->connection->setAttribute(\PDO::ATTR_ERRMODE, 
+                                                \PDO::ERRMODE_EXCEPTION);
             }catch(PDOException $e){
                 echo "pdo init 실패 =" . $e->getMessage();
             }

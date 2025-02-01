@@ -1,10 +1,9 @@
 <?php 
 declare(strict_types=1);
-namespace boardlist;
-
-use util\DB;
-
-require_once $_SERVER['DOCUMENT_ROOT']."/src/util.php";  
+namespace board\boardlist;
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/app.php'; 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/util.php';
+use app\util\DB;
 
 $DB = new DB();
 $sqlQuery = "select id, 
