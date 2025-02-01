@@ -1,5 +1,12 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT']."/src/util.php";  
+<?php 
+declare(strict_types=1);
+namespace boardlist;
 
+use util\DB;
+
+require_once $_SERVER['DOCUMENT_ROOT']."/src/util.php";  
+
+$DB = new DB();
 $sqlQuery = "select id, 
                     regDate, 
                     updateDate, 
@@ -7,11 +14,14 @@ $sqlQuery = "select id,
                     body  
               from  article 
              order  by id desc";
+try{
+    $boardlist= $DB->handleRequest("GET",$sqlQuery);
+}catch(\PDOException $e){
+    echo "boardlist 데이터 조회 실패=".$e->getMessage();
+}
 
-$param = BOARD_RESTfull_API("GET",$sqlQuery,null);
+include $_SERVER['DOCUMENT_ROOT'].'/public/header&footer/header.php';
 ?>
-
-<?php include $_SERVER['DOCUMENT_ROOT'].'/public/header&footer/header.php'; ?>
 <main>
     <div style="font-size: 50px; text-align: center; margin-bottom: 20px;"><a href="..\..\..\index.php">홈으로</a>
     </div>
@@ -27,21 +37,20 @@ $param = BOARD_RESTfull_API("GET",$sqlQuery,null);
                 </tr>
             </thead>
             <tbody>
-                <?php
-                        if(count($param) === 0){
-                            die("연결될 로우 없음");
-                        }else{
-                            foreach($param as $row){ ?>
-
-                                <tr class="table-row">
-                                    <td><?php echo htmlspecialchars($row['id']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['title']); ?></td>
-                                    <td><a href="detail.php?bno=<?php echo htmlspecialchars($row['id']) ?>" class="post-link"><?php echo htmlspecialchars($row['body']); ?></a></td>
-                                    <td><?php echo htmlspecialchars($row['updateDate']); ?></td>
-                                </tr>
-                          <?php 
-                           }
-                        }?>
+                <?php if(empty($boardlist)) :?>
+                    <tr>
+                        <td colspan="4">등록된 게시물이 없습니다</td>
+                    </tr>
+                <?php else:?>
+                    <?php foreach($boardlist as $row):?>
+                        <tr class="table-row">
+                            <td><?php echo htmlspecialchars($row['id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['title']); ?></td>
+                            <td><a href="detail.php?bno=<?php echo htmlspecialchars($row['id']) ?>" class="post-link"><?php echo htmlspecialchars($row['body']); ?></a></td>
+                            <td><?php echo htmlspecialchars($row['updateDate']); ?></td>
+                        </tr>
+                     <?php endforeach;?>  
+                 <?php endif;?>     
             </tbody>
         </table>
     </div>
