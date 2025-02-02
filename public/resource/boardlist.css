@@ -39,3 +39,22 @@
 .post-link:hover {
     text-decoration: underline;
 }
+
+.write-button-container {
+    text-align: right; /* 버튼을 오른쪽으로 정렬 */
+    margin-top: 20px; /* 테이블과의 간격 조절 */
+}
+
+.write-button {
+    padding: 10px 20px;
+    background-color: #007bff; /* 파란색 배경 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.write-button:hover {
+    background-color: #0056b3; /* 호버 시 약간 어두운 파란색 */
+}

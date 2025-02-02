@@ -15,8 +15,10 @@ WHERE id = :id;
 
 -- 게시글 등록
 -- @name: board.insert
-INSERT INTO article (title, body, regDate, updateDate)
-VALUES (:title, :body, NOW(), NOW());
+INSERT INTO article
+(title, body, regDate, updateDate)
+VALUES
+(:title, :body, NOW(), NOW());
 
 -- 게시글 수정
 -- @name: board.update

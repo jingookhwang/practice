@@ -30,18 +30,28 @@
                 switch($method){
                     case "GET"    :
                                 if(empty($param)){
-                                    $stms = $this->connection->prepare($sqlQuery);//준비
-                                    $stms->execute();//실행 .param 넣는다
+                                    $stms = $this->connection->prepare($sqlQuery);
+                                    $stms->execute();
                                     return $stms->fetchAll(\PDO::FETCH_ASSOC);
                                 }else{
                                     $stms = $this->connection->prepare($sqlQuery);
-                                    foreach ($param as $key => $value) { // foreach 루프 사용, key-value 쌍으로 처리
-                                        $stms->bindParam(":" . $key, $value); // 이름 기반 바인딩: ":파라미터_이름", 값
+                                    foreach ($param as $key => $value) {
+                                        $stms->bindValue(":" . $key, $value);
                                     }
                                     $stms->execute();
                                     return $stms->fetchAll(\PDO::FETCH_ASSOC);
                                 }
+                                break;
                     case 'POST'   :
+                                $stms = $this->connection->prepare($sqlQuery);
+                                foreach($param as $key => $val){
+                                    $stms->bindValue(":".$key , $val);
+                                }
+                                echo "result";
+                                print_r($stms->debugDumpParams());
+                                $stms->execute();
+                                return $stms->rowCount() > 0 ? [] : null;
+                                break;
                     case 'FETCH'  :
                                 if(!empty($param)){
                                     $stms = $this->connection->prepare($sqlQuery);
@@ -49,8 +59,12 @@
                                         $stms->bindValue(":" . $key, $value);
                                     }
                                     $stms->execute();
+                                    return $stms->rowCount() > 0 ? [] : null;
                                 }
+                                break;
                     case 'DELETE' :  
+                                // DELETE 로직 추가
+                                break;
                     default       :
                                   return null;       
                 }

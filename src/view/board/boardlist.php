@@ -21,6 +21,9 @@ include $_SERVER['DOCUMENT_ROOT'].'/public/header&footer/header.php';
     </div>
     <div class="container">
         <h2>게시판 목록</h2>
+        <div class="write-button-container">
+            <button class="write-button" onclick="location.href='/src/view/board/write.php'">글쓰기</button>
+        </div>
         <table class="post-table">
             <thead>
                 <tr class="table-header">
