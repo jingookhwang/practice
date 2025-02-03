@@ -14,8 +14,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST)){
     $postTitle = $_POST["postTitle"];
     $postContent = $_POST['postContent'];
     
+    $app = \app\Application::getInstance();
+    $DB = \app\util\DB::getInstance();
+    
     try {
-        $DB = new DB();
         $sqlQuery = $DB->getSqlQuery("board.insert");
         $param = [
             'title' => $postTitle,

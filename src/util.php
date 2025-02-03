@@ -8,9 +8,11 @@
      * util.php -> \PDO 전역변수 타입 , \PDOexception을 사용하고 위에꺼 사용안해됨
      */
     class DB{
+        private static ?DB $instance = null;
         private \PDO $connection; 
+        
 
-        public function __construct()
+        private function __construct()
         {
             $app = new Application();//힙 생성
             $this -> connection = $app->getConnection();
@@ -90,6 +92,17 @@
             }
             
             throw new \Exception("SQL 쿼리를 찾을 수 없습니다: {$selectName}");
+        }
+
+        public static function getInstance(): DB {
+            if (self::$instance === null) {
+                self::$instance = new DB();
+            }
+            return self::$instance;
+        }
+
+        public function getConnection(): \PDO {
+            return $this->connection;
         }
     }
 

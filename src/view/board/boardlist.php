@@ -3,9 +3,11 @@ declare(strict_types=1);
 namespace board\boardlist;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/app.php'; 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/util.php';
-use app\util\DB;
 
-$DB = new DB();
+use app\Application;
+
+$app = \app\Application::getInstance();
+$DB = \app\util\DB::getInstance();
 try{
     echo $_ENV['DB_BOARD_LIST'];
     $sqlQuery = $DB->getSqlQuery($_ENV['DB_BOARD_LIST']);

@@ -12,10 +12,11 @@
     if(isset($_GET['bno']) === false){
         exit;
     }
+    $app = \app\Application::getInstance();
+    $DB = \app\util\DB::getInstance();
     try{
         // 조회
         $param = ["id" => $_GET['bno']];
-        $DB = new DB();
         $sqlQuery = $DB->getSqlQuery($_ENV['DB_BOARD_DATAIL']);
         $detail = $DB->handleRequest("GET",$sqlQuery,$param);
     }catch(\PDOException $e){
@@ -28,7 +29,6 @@
             $postTitle = $_POST["postTitle"];
             $postContent = $_POST['postContent']; // 내용
             $bno = $_POST['bno']; // 게시물 번호 (URL에서 가져옴)
-            $DB = new DB();
             $param =[
                 'title' => $postTitle,
                 'body'  => $postContent,

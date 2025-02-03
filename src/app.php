@@ -10,7 +10,7 @@
 
     class Application{
         private PDO $connection;
-
+        private static $instance = null;
         public function __construct()
         {
             $this->initializeEnvironment();
@@ -47,6 +47,16 @@
 
         public function getConnection ():PDO {
             return $this->connection;
+        }
+
+        public static function getInstance() {
+            if (self::$instance === null) {
+                self::$instance = new Application();
+            }
+            return self::$instance;
+        }
+        public function run(): void {
+            echo "Application가 실행 중입니다.";
         }
 
     }
