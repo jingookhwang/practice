@@ -105,6 +105,39 @@
         public function getConnection(): \PDO {
             return $this->connection;
         }
+        /**
+         * PDOStatement에 파라미터를 안전하게 바인딩하는 함수입니다.
+         *
+         * 전달된 값의 타입에 따라 적절한 PDO 파라미터 상수를 선택하고
+         * named placeholder에 값을 바인딩합니다.
+         *
+         * @param PDOStatement $stmt  준비된 PDO 쿼리 객체
+         * @param string       $key   바인딩할 파라미터 이름 (콜론(:)은 내부에서 자동 추가)
+         * @param mixed        $value 바인딩할 값
+         * @return bool 바인딩 성공 여부
+         * @throws InvalidArgumentException 지원하지 않는 타입의 값인 경우 예외 발생
+         */
+        function bindParameterAdvanced(\PDOStatement $stmt, string $key, $value): bool {
+            if (is_null($value)) {
+                $paramType = \PDO::PARAM_NULL;
+            } elseif (is_bool($value)) {
+                $paramType = \PDO::PARAM_BOOL;
+            } elseif (is_int($value)) {
+                $paramType = \PDO::PARAM_INT;
+            } elseif (is_float($value)) {
+                // PDO는 부동소수점 타입을 직접 지원하지 않으므로 문자열로 캐스팅
+                $value = (string)$value;
+                $paramType = \PDO::PARAM_STR;
+            } elseif (is_string($value)) {
+                $paramType = \PDO::PARAM_STR;
+            } else {
+                // 배열, 객체 등 지원하지 않는 타입은 예외 처리
+                throw new \InvalidArgumentException("지원하지 않는 타입의 값을 바인딩하려고 합니다. key: {$key}");
+            }
+            
+            // named placeholder는 ':'를 포함해야 하므로 내부에서 자동으로 추가합니다.
+            return $stmt->bindValue(':' . $key, $value, $paramType);
+        }
     }
 
 
