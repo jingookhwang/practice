@@ -38,7 +38,8 @@
                                 }else{
                                     $stms = $this->connection->prepare($sqlQuery);
                                     foreach ($param as $key => $value) {
-                                        $stms->bindValue(":" . $key, $value);
+                                        // 바인딩 타입을 명시적으로 지정
+                                        $stms->bindValue(":" . $key, $value, is_int($value) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
                                     }
                                     $stms->execute();
                                     return $stms->fetchAll(\PDO::FETCH_ASSOC);
