@@ -6,6 +6,8 @@ use app\util\DB;
 use app\Application;
 use app\util;
 
+session_start(); // 세션 시작 추가
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/app.php'; 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/util.php';    
 
@@ -14,8 +16,8 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST)){
     $postTitle = $_POST["postTitle"];
     $postContent = $_POST['postContent'];
     
-    $app = \app\Application::getInstance();
-    $DB = \app\util\DB::getInstance();
+    $app = Application::getInstance();
+    $DB = DB::getInstance();
     
     try {
         $sqlQuery = $DB->getSqlQuery("board.insert");
@@ -24,17 +26,15 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST)){
             'body'  => $postContent
         ];
         $result = $DB->handleRequest("POST",$sqlQuery,$param);
-        echo '<script>';
-        echo 'alert("게시글이 작성되었습니다.");';
-        echo 'window.location.href = "/index.php";';
-        echo '</script>';
+        
+        // 플래시 메시지 저장
+        $_SESSION['flash_message'] = '글이 작성되었습니다.';
+        
+        header("Location: /index.php");
         exit();
        
     } catch(\PDOException $e) {
-        echo '<script>';
-        echo 'alert("게시글 작성에 실패했습니다.");';
-        echo 'history.back();';
-        echo '</script>';
+        header("Location: /error.php");
         exit();
     }
 }

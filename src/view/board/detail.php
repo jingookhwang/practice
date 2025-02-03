@@ -8,12 +8,13 @@
     use app\util\DB;
     
     $param = null; $DB = null; $sqlQuery = null; $detail = null;
-    
+    session_start();
+
     if(isset($_GET['bno']) === false){
         exit;
     }
-    $app = \app\Application::getInstance();
-    $DB = \app\util\DB::getInstance();
+    $app = Application::getInstance();
+    $DB = DB::getInstance();
     try{
         // 조회
         $param = ["id" => $_GET['bno']];
@@ -38,26 +39,9 @@
             $sqlQuery = $DB->getSqlQuery("board.update");
             $result = $DB->handleRequest("FETCH",$sqlQuery,$param);
             if(empty($result)){
-                $redirectUrl = "/index.php";
-                echo "<script>";
-                echo "alert('게시글이 수정되었습니다.');";
-                echo "window.location.replace('" . $redirectUrl . "');";
-                echo "history.pushState(null, null, '" . $redirectUrl . "');";
-                // 페이지 로드 시와 뒤로가기 시 체크
-                echo "
-                    function preventBack() {
-                        window.history.forward();
-                    }
-                    setTimeout(preventBack, 0);
-                    window.onunload = function () { null };
-                    
-                    // 추가적인 방어
-                    window.onpopstate = function() { 
-                        window.location.replace('" . $redirectUrl . "');
-                        preventBack();
-                    };
-                ";
-                echo "</script>";
+                $_SESSION['flash_message']="수정 완료";
+                header("Location: /index.php");
+                exit;
             }else{
                 echo "<script>alert('게시글 수정에 실패했습니다.');</script>"; // 실패 알림
             }

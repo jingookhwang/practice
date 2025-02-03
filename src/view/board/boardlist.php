@@ -5,9 +5,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/src/app.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/util.php';
 
 use app\Application;
+use app\util\DB;
 
-$app = \app\Application::getInstance();
-$DB = \app\util\DB::getInstance();
+$app = Application::getInstance();
+$DB = DB::getInstance();
 try{
     echo $_ENV['DB_BOARD_LIST'];
     $sqlQuery = $DB->getSqlQuery($_ENV['DB_BOARD_LIST']);
