@@ -1,0 +1,96 @@
+.board-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 15px;  /* 20px에서 15px로 수정 */
+}
+
+h1 {
+    margin-bottom: 15px;  /* 제목 아래 여백 추가 */
+}
+
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;  /* 10px에서 5px로 수정 */
+}
+
+.board-table th, .board-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.board-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.board-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.write-btn {
+    float: none;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.write-btn:hover {
+    background-color: #0056b3;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.action-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;  /* 10px에서 5px로 수정 */
+}
+
+.search-container {
+    margin: 0;  /* 불필요한 마진 제거 */
+}
+
+.search-input {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.search-btn {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}

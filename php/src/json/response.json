@@ -1,0 +1,52 @@
+{
+    "status": "success",
+    "code": 200,
+    "message": "데이터 조회 성공",
+    "pagination": {
+        "currentPage": 1,
+        "totalPages": 10,
+        "perPage": 20,
+        "totalCount": 195
+    },
+    "data": {
+        "orders": [
+            {
+                "orderId": "ORD-2024-0001",
+                "orderDate": "2024-01-15T09:30:00",
+                "userId": "USER123",
+                "status": "COMPLETED",
+                "items": [
+                    {
+                        "productId": "PROD-001",
+                        "name": "스마트폰",
+                        "price": 1200000,
+                        "quantity": 1,
+                        "options": {
+                            "color": "black",
+                            "storage": "256GB"
+                        }
+                    }
+                ],
+                "payment": {
+                    "method": "CARD",
+                    "amount": 1200000,
+                    "status": "PAID",
+                    "cardInfo": {
+                        "last4": "1234",
+                        "company": "신한"
+                    }
+                },
+                "shipping": {
+                    "address": {
+                        "zipcode": "06134",
+                        "street": "강남대로 123",
+                        "detail": "2층 201호"
+                    },
+                    "status": "DELIVERED",
+                    "trackingNo": "123456789"
+                }
+            }
+        ]
+    },
+    "timestamp": "2024-01-15T09:35:22+09:00"
+}
