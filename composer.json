@@ -1,0 +1,14 @@
+{
+    "name": "jingookhwang/board",
+    "description": "PHP Board Project",
+    "type": "project",
+    "require": {
+        "php": "^7.4|^8.0",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

@@ -1,3 +1,10 @@
+<?php
+    require_once __DIR__ ."/../../../util.php";
+    use App\util;
+
+    $layout=util::getInstance();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +24,7 @@
         }
     </style>
 </head>
-<?php include $_SERVER['DOCUMENT_ROOT'].'/src/public/header.php'; ?>
+<?php $layout->layout("header")?>
 <?php
 
     
@@ -88,7 +95,7 @@
             <button type="submit" class="dynamic-button" name="btn"> 로그인</button>
         </form>
     </div>
-    <?php include $_SERVER['DOCUMENT_ROOT'].'/src/public/footer.php'; ?>
+    <?php $layout->layout("footer")?>
 </body>
 
 </html>
