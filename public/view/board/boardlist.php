@@ -7,9 +7,6 @@
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; //기본 1
         $limit = 10; //5페이지
         $offset = ($page-1) * $limit;   // SQL LIMIT 절에서 사용할 offset 계산
-
-        echo "∇∇∇∇∇page=".$page."limit=".$limit."offset=".$offset."∇∇∇∇∇";
-
         if(isset($_GET['search']) and  trim($_GET['search']) !== ''){
             /**
              서치 검색 문의오면 전체 카운트 검색.
@@ -97,7 +94,7 @@
                             <td><?php echo htmlspecialchars($rows['id']) ?></td>
                             <td><?php echo htmlspecialchars($rows['title'])?></td>
                             <td>
-                                <a href="write.php?id=<?php echo htmlspecialchars($rows['id']); ?>">
+                                <a href="detail.php?id=<?php echo htmlspecialchars($rows['id']); ?>">
                                     <?php echo nl2br(htmlspecialchars($rows['body'])); ?>
                                 </a>
                             </td>
@@ -126,7 +123,7 @@
                 <!-- 페이지 번호 출력 -->
                 <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
                     <a href="?page=<?php echo $i . $searchCheck; ?>" 
-                    <?php if ($i === $page) echo 'class="active"'; ?>>
+                    <?php if ($i === $page) echo 'class="active"'; ?> >
                         <?php echo $i; ?>
                     </a>
                 <?php endfor; ?>
