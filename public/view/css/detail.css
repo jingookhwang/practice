@@ -1,0 +1,56 @@
+.article-detail {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.article-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.article-header h2 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.article-info {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.article-content {
+    line-height: 1.6;
+    color: #444;
+    min-height: 200px;
+    padding: 20px 0;
+}
+
+.article-actions {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background: #dc3545;
+}
+
+.btn:hover {
+    opacity: 0.9;
+} 

@@ -1,8 +1,5 @@
 <?php
-    require_once __DIR__ ."/../../../util.php";
-    use App\util;
-
-    $layout=util::getInstance();
+   
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +21,7 @@
         }
     </style>
 </head>
-<?php $layout->layout("header")?>
+<?php include __DIR__ . '/../../view/layout/header.php'; ?>
 <?php
 
     
@@ -37,44 +34,30 @@
             try{
                 $connection = new PDO('mysql:host=127.0.0.1;dbname=myproject;charset=utf8', "sbs", "sbs1234");
                 $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                // 1. 입력값 확인
-                echo "POST 데이터:<br>";
-                echo "이메일: " . htmlspecialchars($email) . "<br>";
-                echo "비밀번호: " . htmlspecialchars($password) . "<br>";
-                
-                $sql = "SELECT * FROM users WHERE email=:email AND password=:password";
+                $sql = "SELECT * FROM users WHERE email=:email";
                 $stmt = $connection->prepare($sql);
-                
-                // 2. 바인딩 전 쿼리
-                echo "바인딩 전 쿼리: " . $sql . "<br>";
-                
                 $stmt->bindValue(":email", $email);
-                $stmt->bindValue(":password", $password);
-                
-                // 3. 바인딩된 값 확인
-                echo "바인딩된 값:<br>";
-                $debugQuery = str_replace(
-                    [':email', ':password'],
-                    ["'" . htmlspecialchars($email) . "'", "'" . htmlspecialchars($password) . "'"],
-                    $sql
-                );
-                echo "실행될 쿼리: " . $debugQuery . "<br>";
-                
                 $stmt->execute();
                 $count=$stmt->rowCount();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($count === 1) {
-                    $_SESSION['email'] = $email;
-                    var_dump($_SESSION);
-                    header("Location: /index.php");
-                    exit;
-                    //ant' OR '1'='1
+                    $dbpassword = $row['password'];
+                    //입력패스워드 , db저장 패스워드
+                    var_dump(password_verify($password,$dbpassword)) ;
+                    if(password_verify($password,$dbpassword)){
+                        //비밀번호 일치
+                        $_SESSION['email']=$row['email'];
+                        header("Location: /index.php");
+                        exit;
+                    }else{
+                        echo "<script>alert('비밀번호가 틀렸습니다.'); history.back();</script>";
+                        exit;
+                    }
                 } else {
-                    echo "<script>alert('로그인 실패'); history.back();</script>";
+                    echo "<script>alert('로그인 실패 이메일을 확인해주세요.'); history.back();</script>";
                     exit;
                 }
-                
-        
             }catch(PDOException $e){
                 echo "db실패 전체목로=".$e->getMessage();
             }    
@@ -95,7 +78,7 @@
             <button type="submit" class="dynamic-button" name="btn"> 로그인</button>
         </form>
     </div>
-    <?php $layout->layout("footer")?>
+    <?php include __DIR__ . '/../../view/layout/footer.php'; ?>
 </body>
 
 </html>

@@ -1,8 +1,6 @@
 <?php
-    require_once __DIR__ ."/../util.php";
-    use App\util;
+    
 
-    $layout=util::getInstance();
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +21,7 @@
 </head>
 <body>
     <!-- C:\Users\진국\OneDrive\Desktop\정리 메모장\php\public -->
-    <?php $layout->layout("header")?>
+    <?php include __DIR__ . '/view/layout/header.php'; ?>
     <div class="content-wrapper">
         <script>
           
@@ -34,6 +32,7 @@
     <div class="testtable" id="testtable">
         테스트
     </div>
-    <?php $layout->layout("footer")?>
+    </div>
+    <?php include __DIR__ . '/view/layout/footer.php'; ?>
 </body>
 </html>

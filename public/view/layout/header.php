@@ -22,7 +22,7 @@
 
                 <?php if(!isset($_SESSION['email'])):?>
                 <li><a href="/view/user/login.php">로그인</a></li>
-                <li><a href="#">회원가입</a></li>
+                <li><a href="/view/user/isnewuser.php">회원가입</a></li>
                 <?php else: ?>
                 <li><a><?php echo htmlspecialchars($_SESSION['email']); ?></a></li>
                 <li><a href="/view/user/loginout.php">로그아웃</a></li>
