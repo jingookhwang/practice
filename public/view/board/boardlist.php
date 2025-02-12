@@ -42,7 +42,7 @@
             $stms = $connection->prepare($sqlQuery);
             $stms->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stms->bindValue(':offset', $offset, PDO::PARAM_INT);
-            }  
+        }  
             $stms->execute();
             //전체 결과 $boards
             $boards = $stms->fetchAll();
@@ -55,10 +55,6 @@
 
 ?>
 <?php include __DIR__ . '/../../view/layout/header.php'; ?>
-    <script>
-        
- 
-    </script>
     <div class="content-wrapper">
         <div class="board-container">
             <h1>게시판</h1>
@@ -70,7 +66,7 @@
                     <button class="search-btn">검색</button>
                     </form>
                 </div>
-                <button class="write-btn" onclick="showWriteForm()">글쓰기</button>
+                <button class="write-btn" onclick="location.href='write.php'">글쓰기</button>
             </div>
             
             <table class="board-table">
@@ -106,10 +102,23 @@
             </table>
             <div class="pagination">
                   <?php
-                        //페이지 그룹 계산
+                        //페이지 그룹 계산 페이징 5개
+                        $pageGroup = ceil($page / 5); 
+                        $startPage = ($pageGroup - 1) * 5 + 1; 
+                        $endPage = min($startPage + 4, $totalPages);  
+                        /**
+                        페이징 5개
                         $pageGroup = ceil($page/5); //현재 페이지가 속한 그룹 번호
                         $startPage = ($pageGroup - 1) * 5 + 1; // 현재 그룹의 시작 페이지
-                        $endPage = min($startPage + 4, $totalPages);  // 현재 그룹의 마지막 페이지
+                        $endPage = min($startPage + 4, $totalPages);  // 현재 그룹의 마지막 페이지 
+
+                        --------------------
+                        페이징 10개
+                        $pageGroup = ceil($page / 10); //현재 페이지가 속한 그룹 번호
+                        $startPage = ($pageGroup - 1) * 10 + 1; // 현재 그룹의 시작 페이지
+                        $endPage = min($startPage + 9, $totalPages);  // 현재 그룹의 마지막 페이지 
+                        */
+
                         $searchCheck = isset($_GET['search']) ? "&search=" . urlencode($_GET['search']) : "";
                   ?> 
                   <!-- "처음" 링크: 현재 페이지가 1 페이지가 아니라면 표시 -->

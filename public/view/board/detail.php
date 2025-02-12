@@ -42,7 +42,7 @@
             
             <div class="article-actions">
                 <a href="boardlist.php" class="btn">목록으로</a>
-                <button type="submit" formaction="write.php" class="btn">수정</button>
+                <button type="submit" formaction="update.php" class="btn">수정</button>
                 <button onclick="deleteArticle(<?php echo htmlspecialchars($rows['id']); ?>)" class="btn btn-danger">삭제</button>
             </div>
         </div> 

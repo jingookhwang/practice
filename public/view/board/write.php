@@ -1,66 +1,64 @@
 <?php
-    
-    try{
+    try {
         $connection = new PDO('mysql:host=127.0.0.1;dbname=myproject;charset=utf8',"sbs" , "sbs1234");
         $connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        
-        if($_SERVER['REQUEST_METHOD']==="POST"){
-            if($_POST['action'] === 'update'){
-                $sqlQuery = "select * from article where id =:id";
-                $stms = $connection->prepare($sqlQuery);
-                $stms->bindValue(":id",$_POST['id'],PDO::PARAM_INT);
-                $stms->execute();
-                $rows = $stms->fetch(PDO::FETCH_ASSOC);
-            }else if($_POST['action'] === 'save'){
-                $title = filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING);
-                $body = filter_input(INPUT_POST,'body',FILTER_SANITIZE_STRING);
-                $id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
-                $sqlQuery = "update article set title = :title, body = :body, updateDate = NOW() WHERE id = :id";
-                $stms=$connection->prepare($sqlQuery);
-                $stms ->bindValue(":title",$title);
-                $stms ->bindValue(":body",$body);
-                $stms ->bindValue(":id",$id);
-
-                if($stms->execute()){
-                    header("Location: boardlist.php");
-                }else{
-                    $errorMsg = "수정 실패. 오류";
-                }
-            }
-        }
-    }catch(PDOException $e){
-        echo "write 에러=".$e->getMessage();
+    } catch (PDOException $e) {
+        // DB 연결 실패 시, 상세 에러는 로그 처리 후 종료
+        error_log("DB 연결 실패: " . $e->getMessage());
+        echo "서버 내부 오류가 발생했습니다.";
+        exit;
     }
 
-   
-?>
+    $errorMsg="";
+    $title = filter_input(INPUT_POST,'title',FILTER_SANITIZE_STRING);
+    $body = filter_input(INPUT_POST,'body',FILTER_SANITIZE_STRING);
+    
+    if($_SERVER['REQUEST_METHOD'] === "POST" and isset($_POST) and $_POST['action']==="write"){
+        if(!empty($title) and !empty($body)){
+            $sqlQuery = "INSERT INTO article (title, body, regDate, updateDate) VALUES (:title, :body, NOW(), NOW())";
+            $stms=$connection->prepare($sqlQuery);
+            $stms->bindValue(":title",$title,PDO::PARAM_STR);
+            $stms->bindValue(":body",$body,PDO::PARAM_STR);
+            $stms->execute();
+            $count = $stms->rowCount();
+            
+            if($count > 0){
+                header("Location: /index.php");
+                exit;
+            }else{
+                $errorMsg="글쓰기 실패";
+            }
+        }
+        
+    }
+    // else{
+    //     echo "<script>alert('잘못된 접근방식입니다.'); history.back();</script>";
+    // }
 
+
+?>
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
+    <title>게시글 작성</title>
     <link rel="stylesheet" href="/view/css/write.css">
-    <title></title>
 </head>
 <?php include __DIR__ . '/../../view/layout/header.php'; ?>
 <body>
     <div class="container">
-        <?php if(!empty($errorMsg)): ?>
-        <h1><?php echo $errorMsg; ?></h1>
-        <?php endif; ?>
+       <?php if(!empty($errorMsg)):?>
+        <div class="error"><?php echo htmlspecialchars($errorMsg)?></div>
+       <?php endif;?> 
         <form  method="post" class="write-form">
-        <input type="hidden" name="action" value="save">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($rows['id'])?>">
+            <input type="hidden" name="action" value="write"> 
             <div class="form-group">
                 <label for="title">제목</label>
-                <input type="text" id="title" name="title" required 
-                       value="<?php echo htmlspecialchars($rows['title'])?>">
+                <input type="text" id="title" name="title" required >
             </div>
             <div class="form-group">
                 <label for="body">내용</label>
-                <textarea id="body" name="body" required rows="10">
-                <?php echo nl2br(htmlspecialchars($rows['body'])) ?>
-                </textarea>
+                <textarea id="body" name="body" required rows="10"></textarea>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">저장</button>
